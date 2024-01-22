@@ -5,32 +5,28 @@ import { useForm } from "react-hook-form";
 
 const Register = () => {
     const [boxValue, setBoxValue] = useState('');
-    // const [searchedState, setSearchedState] = useState('');
-    console.log(boxValue);
 
-    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
+        values: {
+            state: boxValue
+        }
+    });
+
     const onSubmit = data => {
-        console.log("Hello");
+        const referenceArray = Array.isArray(data.reference)
+            ? data.reference
+            : [data.reference];
+
+        data.reference = referenceArray;
         console.log(data);
     }
 
     // console.log(watch("example")); // watch input value by passing the name of it
 
-    const states = ["Gujarat", "Maharashta", "Karnataka"];
-
-    // const showSearchedData = () => {
-    //     setSearchedState(states.find(state=>))
-    // }
-
+    const states = ["Gujarat", "Maharashtra", "Karnataka"];
 
     return (
-        <div className=''>
-            {/* <div className="form-control">
-                <label className="label">
-                    <span className="label-text">State</span>
-                </label>
-                <input value={boxValue} onChange={(e) => setBoxValue(e.target.value)} type="text" placeholder="Enter your State Name" className="input input-bordered" />
-            </div> */}
+        <div>
             <h2>Register</h2>
             <div className="hero min-h-screen">
                 <div className="hero-content">
@@ -42,7 +38,7 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Name</span>
                                 </label>
-                                <input type="text" {...register("name")} placeholder="Enter your Name" className="input input-bordered" />
+                                <input type="text" {...register("name")} placeholder="Enter your Name" className="input input-bordered" required />
                             </div>
 
                             {/* email */}
@@ -50,7 +46,7 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="email" {...register("email")} placeholder="Enter your Email" className="input input-bordered" />
+                                <input type="email" {...register("email")} placeholder="Enter your Email" className="input input-bordered" required />
                             </div>
 
                             {/* password */}
@@ -58,7 +54,7 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" {...register("password")} placeholder="Enter your Password" className="input input-bordered" />
+                                <input type="password" {...register("password")} placeholder="Enter your Password" className="input input-bordered" required />
                             </div>
 
                             {/* phone number */}
@@ -66,7 +62,7 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Phone Number</span>
                                 </label>
-                                <input type="number" {...register("phone_number")} placeholder="Enter your Phone Number" className="input input-bordered" />
+                                <input type="number" {...register("phone_number")} placeholder="Enter your Phone Number" className="input input-bordered" required />
                             </div>
 
                             {/* gender - radio button */}
@@ -115,10 +111,10 @@ const Register = () => {
 
                             {/* drop-down city */}
                             <select {...register("city")} className="select select-bordered w-full max-w-xs">
-                                <option disabled selected>Select your city?</option>
-                                <option>Mumbai</option>
-                                <option>Pune</option>
-                                <option>Ahmedabad</option>
+                                <option disabled defaultValue="not selected">Select your city?</option>
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Pune">Pune</option>
+                                <option value="Ahmedabad">Ahmedabad</option>
                             </select>
 
                             {/* auto suggested city */}
@@ -127,7 +123,7 @@ const Register = () => {
                                     <label className="label">
                                         <span className="label-text">State</span>
                                     </label>
-                                    <input value={boxValue} onChange={(e) => setBoxValue(e.target.value)} type="text" placeholder="Enter your State Name" className="input input-bordered" />
+                                    <input {...register('state', { onChange: (e) => setBoxValue(e.target.value) })} type="text" placeholder="Enter your State Name" className="input input-bordered" />
                                 </div>
                                 <div className='absolute right-0 z-10 mr-10 bg-white w-[300px] m-3'>
                                     {
@@ -137,6 +133,7 @@ const Register = () => {
                                             return searchTerm && statesName.startsWith(searchTerm) && searchTerm !== statesName
                                         }).slice(0, 10)
                                             .map((eachState, index) => <div
+                                                key={index}
                                                 onClick={() => {
                                                     setBoxValue(eachState)
                                                 }}
@@ -147,9 +144,6 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            {/* <div className="form-control">
-                                <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
-                            </div> */}
                             <input type="submit" className='btn btn-primary' value="Register" />
                         </form>
                     </div>
