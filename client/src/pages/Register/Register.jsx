@@ -38,7 +38,7 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Name</span>
                                 </label>
-                                <input type="text" {...register("name")} placeholder="Enter your Name" className="input input-bordered" required />
+                                <input type="text" {...register("name", { required: true, pattern: /^[a-zA-Z\s]+$/ })} placeholder="Enter your Name" className="input input-bordered" />
                             </div>
 
                             {/* email */}
@@ -46,7 +46,7 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="email" {...register("email")} placeholder="Enter your Email" className="input input-bordered" required />
+                                <input type="email" {...register("email", { required: true })} placeholder="Enter your Email" className="input input-bordered" />
                             </div>
 
                             {/* password */}
@@ -54,7 +54,7 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" {...register("password")} placeholder="Enter your Password" className="input input-bordered" required />
+                                <input type="password" {...register("password", { required: true, pattern: /^\d+$/ })} placeholder="Enter your Password" className="input input-bordered" />
                             </div>
 
                             {/* phone number */}
@@ -62,7 +62,7 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Phone Number</span>
                                 </label>
-                                <input type="number" {...register("phone_number")} placeholder="Enter your Phone Number" className="input input-bordered" required />
+                                <input type="number" {...register("phone_number", { required: true })} placeholder="Enter your Phone Number" className="input input-bordered" />
                             </div>
 
                             {/* gender - radio button */}
@@ -70,19 +70,19 @@ const Register = () => {
                                 <div className="form-control">
                                     <label className="label cursor-pointer">
                                         <span className="label-text">Male</span>
-                                        <input type="radio" {...register("gender")} value="male" className="radio checked:bg-red-500" checked />
+                                        <input type="radio" {...register("gender", { required: true })} value="male" className="radio checked:bg-red-500" />
                                     </label>
                                 </div>
                                 <div className="form-control">
                                     <label className="label cursor-pointer">
                                         <span className="label-text">Female</span>
-                                        <input type="radio" {...register("gender")} value="female" className="radio checked:bg-blue-500" />
+                                        <input type="radio" {...register("gender", { required: true })} value="female" className="radio checked:bg-blue-500" />
                                     </label>
                                 </div>
                                 <div className="form-control">
                                     <label className="label cursor-pointer">
                                         <span className="label-text">Others</span>
-                                        <input type="radio" {...register("gender")} value="others" className="radio checked:bg-green-500" />
+                                        <input type="radio" {...register("gender", { required: true })} value="others" className="radio checked:bg-green-500" />
                                     </label>
                                 </div>
                             </div>
@@ -92,26 +92,26 @@ const Register = () => {
                                 <div className="form-control">
                                     <label className="label cursor-pointer">
                                         <span className="label-text">LinkedIn</span>
-                                        <input type="checkbox" {...register("reference")} value="linkedin" className="checkbox" />
+                                        <input type="checkbox" {...register("reference", { required: true })} value="linkedin" className="checkbox" />
                                     </label>
                                 </div>
                                 <div className="form-control">
                                     <label className="label cursor-pointer">
                                         <span className="label-text">Friends</span>
-                                        <input type="checkbox" {...register("reference")} value="friends" className="checkbox" />
+                                        <input type="checkbox" {...register("reference", { required: true })} value="friends" className="checkbox" />
                                     </label>
                                 </div>
                                 <div className="form-control">
                                     <label className="label cursor-pointer">
                                         <span className="label-text">Job Portal</span>
-                                        <input type="checkbox" {...register("reference")} value="job_portal" className="checkbox" />
+                                        <input type="checkbox" {...register("reference", { required: true })} value="job_portal" className="checkbox" />
                                     </label>
                                 </div>
                             </div>
 
                             {/* drop-down city */}
-                            <select {...register("city")} className="select select-bordered w-full max-w-xs">
-                                <option disabled defaultValue="not selected">Select your city?</option>
+                            <select {...register("city", { required: true })} className="select select-bordered w-full max-w-xs">
+                                <option disabled value="not selected">Select your city?</option>
                                 <option value="Mumbai">Mumbai</option>
                                 <option value="Pune">Pune</option>
                                 <option value="Ahmedabad">Ahmedabad</option>
@@ -123,7 +123,7 @@ const Register = () => {
                                     <label className="label">
                                         <span className="label-text">State</span>
                                     </label>
-                                    <input {...register('state', { onChange: (e) => setBoxValue(e.target.value) })} type="text" placeholder="Enter your State Name" className="input input-bordered" />
+                                    <input {...register('state', { required: true, onChange: (e) => setBoxValue(e.target.value) })} type="text" placeholder="Enter your State Name" className="input input-bordered" />
                                 </div>
                                 <div className='absolute right-0 z-10 mr-10 bg-white w-[300px] m-3'>
                                     {
@@ -133,6 +133,7 @@ const Register = () => {
                                             return searchTerm && statesName.startsWith(searchTerm) && searchTerm !== statesName
                                         }).slice(0, 10)
                                             .map((eachState, index) => <div
+                                                className='cursor-pointer'
                                                 key={index}
                                                 onClick={() => {
                                                     setBoxValue(eachState)
